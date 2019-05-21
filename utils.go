@@ -158,3 +158,14 @@ func CurveAdd(ps []CurvePoint)(*CurvePoint,error){
 	}
 	return &CurvePoint{Px,Py},nil
 }
+func hashpks(pks []*PublicKey)([]byte,error){
+	var plaintext []byte
+	if len(pks)==0 {
+		err := errors.New("publicKeys must be an array with one or more elements")
+		return nil,err
+	}
+	for i:=0;i<len(pks);i++{
+		plaintext = append(plaintext, pks[i].SerializeCompressed()...)
+	}
+	return hTemp(plaintext),nil
+}
